@@ -5,12 +5,14 @@ import sun.invoke.empty.Empty;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-public interface IWorldMap {
+public interface IWorldMap extends IPositionChangeObserver{
 
-     default List<Animal> getAnimals(){
-         return Collections.emptyList();
+    default Map<Vector2d, Animal> getAnimals(){
+         return null;
      };
+    void positionChanged(Vector2d oldPosition, Vector2d newPosition);
     boolean canMoveTo(Vector2d position);
 
     /**

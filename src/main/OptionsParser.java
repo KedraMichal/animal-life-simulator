@@ -27,6 +27,9 @@ public class OptionsParser {
                     movesArr[i] = MoveDirection.LEFT;
                     i += 1;
                     break;
+                default:
+                    throw new IllegalArgumentException(word + " is not legal move specification");
+//                    break;
             }
 
         }

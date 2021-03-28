@@ -4,16 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class GrassField implements IWorldMap {
+public class GrassField extends AbstractWorldMap {
 
-    int howManyGrass = 0;
-    private List<Animal> animals = new ArrayList<>();
-    List<Grass> grassPositions = new ArrayList<>();
-
-    @Override
-    public List<Animal> getAnimals() {
-        return animals;
-    }
+    private int howManyGrass = 0;
+    private List<Grass> grassPositions = new ArrayList<>();
 
     public GrassField(int howManyGrass){
         this.howManyGrass = howManyGrass;
@@ -25,47 +19,22 @@ public class GrassField implements IWorldMap {
     }
 
     @Override
-    public boolean canMoveTo(Vector2d position) {
-        for (Animal animalPlaced: animals) {
-            if (animalPlaced.getPosition().equals(position)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public boolean place(Animal animal) {
-        for (Animal animalPlaced: animals){
-            if(animalPlaced.getPosition().equals(animal.getPosition())){
-                return false;
-            }
-        }
-        this.animals.add(animal);
-        return true;
-    }
-
-    @Override
     public boolean isOccupied(Vector2d position) {
-        for (Animal animalPlaced: animals){
-            if(animalPlaced.getPosition().equals(position)){
-                return true;
-            }
-        }
         for (Grass grassPlaced : grassPositions){
             if(grassPlaced.getPosition().equals(position)){
                 return true;
             }
+        }
+        if (animals.containsKey(position)){
+            return true;
         }
         return false;
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        for (Animal animalPlaced : animals) {
-            if (animalPlaced.getPosition().equals(position)) {
-                return animalPlaced;
-            }
+        if (animals.containsKey(position)){
+            return animals.get(position);
         }
         for (Grass grassPlaced : grassPositions) {
             if (grassPlaced.getPosition().equals(position)) {
@@ -78,12 +47,12 @@ public class GrassField implements IWorldMap {
         public String toString() {
             int maxHeight = 0;
             int maxWidth = 0;
-            for (Animal animalPlaced : animals) {
-                if (maxHeight < animalPlaced.getPosition().x){
-                    maxHeight = animalPlaced.getPosition().x;
+            for (Vector2d posi : animals.keySet()) {
+                if (maxHeight < posi.x){
+                    maxHeight = posi.x;
                 }
-                if (maxWidth < animalPlaced.getPosition().y){
-                    maxWidth = animalPlaced.getPosition().y;
+                if (maxWidth < posi.y){
+                    maxWidth = posi.y;
                 }
             }
             for (Grass grassPlaced : grassPositions) {
