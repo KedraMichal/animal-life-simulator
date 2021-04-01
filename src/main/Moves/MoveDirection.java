@@ -1,6 +1,4 @@
-package main;
-
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+package main.Moves;
 
 import java.util.Random;
 

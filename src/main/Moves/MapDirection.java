@@ -1,4 +1,6 @@
-package main;
+package main.Moves;
+
+import main.Others.Vector2d;
 
 public enum MapDirection {
     NORTH, SOUTH, WEST, EAST;

@@ -1,8 +1,8 @@
-package main;
+package main.AnimalWorldSimulator;
 
 
+import main.MapElements.Animal;
 import main.Maps.Jungle;
-import main.Maps.MapSimulation;
 
 public class World {
 
@@ -10,6 +10,18 @@ public class World {
         MapSimulation mapS = new MapSimulation(new Jungle(), 10);
         mapS.runGame();
 
+//
+//
+//        Animal ani = new Animal(new Jungle());
+//        System.out.println(ani.moveBasedOnGenes());
+//
+//        Animal ani2 = new Animal(new Jungle());
+//
+//        int[] res = ani.crossAnimal(ani2).getGensArrays();
+//        System.out.println("########");
+//        for (int an :res){
+//            System.out.println(an);
+//        }
 
 
 

@@ -1,7 +1,8 @@
-package main.Maps;
+package main.AnimalWorldSimulator;
 
-import main.Animal;
-import main.Grass;
+import main.MapElements.Animal;
+import main.MapElements.Grass;
+import main.Maps.Jungle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,8 +30,8 @@ public class MapRender extends JPanel {
         g.fillRect(0, 0, width, height);
         System.out.println("xdd");
 
-        for (Animal a : this.map.getAnimals().values()) {
-            g.setColor(a.setColor());
+        for (Animal a : this.map.getAnimals()) {
+            g.setColor(a.getColor());
             int y = (a.getPosition().y) * widthScale;
             int x = (a.getPosition().x) * heightScale;
             g.fillOval(x, y, (int) Math.floor(widthScale * 0.6), (int) Math.floor(heightScale * 0.6));

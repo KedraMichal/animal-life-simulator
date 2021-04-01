@@ -1,7 +1,7 @@
 package test;
 
 
-import main.Vector2d;
+import main.Others.Vector2d;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

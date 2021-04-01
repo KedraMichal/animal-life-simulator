@@ -1,9 +1,7 @@
 package test;
 
-import main.MapDirection;
+import main.Moves.MapDirection;
 import org.junit.Test;
-
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 

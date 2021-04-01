@@ -1,8 +1,10 @@
-package main;
+package main.MapElements;
 
 
-import main.Maps.IMapElement;
 import main.Maps.Jungle;
+import main.Others.Vector2d;
+
+import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Grass  implements IMapElement {
@@ -18,6 +20,11 @@ public class Grass  implements IMapElement {
 
     public Vector2d getPosition() {
         return position;
+    }
+
+    @Override
+    public Color getColor() {
+        return null;
     }
 
     public Jungle getMap() {

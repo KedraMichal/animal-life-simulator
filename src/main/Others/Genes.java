@@ -1,4 +1,4 @@
-package main;
+package main.Others;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
@@ -12,6 +12,10 @@ public class Genes {
             gensArrays[i] = ThreadLocalRandom.current().nextInt(0,4); //TODO poprawic indziej bound=4 daje 3
         }
         Arrays.sort(gensArrays);
+    }
+
+    public Genes(int[] gensArrays){
+        this.gensArrays = gensArrays;
     }
 
     public int[] getGensArrays() {
