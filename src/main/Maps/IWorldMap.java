@@ -1,5 +1,8 @@
-package main;
+package main.Maps;
 
+import main.Animal;
+import main.IPositionChangeObserver;
+import main.Vector2d;
 import sun.invoke.empty.Empty;
 
 import java.util.ArrayList;
@@ -7,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public interface IWorldMap extends IPositionChangeObserver{
+public interface IWorldMap extends IPositionChangeObserver {
 
     default Map<Vector2d, Animal> getAnimals(){
          return null;

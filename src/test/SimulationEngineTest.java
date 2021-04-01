@@ -1,6 +1,8 @@
 package test;
 
 import main.*;
+import main.Maps.IWorldMap;
+import main.Maps.RectangularMap;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

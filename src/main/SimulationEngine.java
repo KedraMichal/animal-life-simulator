@@ -1,13 +1,14 @@
 package main;
 
+import main.Maps.IWorldMap;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SimulationEngine implements IEngine{
 
     private MoveDirection[] moves;
-    private IWorldMap  map;
+    private IWorldMap map;
     private Vector2d[] positions;
     private List<Animal> animalOrder = new ArrayList<>();
 

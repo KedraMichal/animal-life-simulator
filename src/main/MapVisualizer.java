@@ -1,5 +1,7 @@
 package main;
 
+import main.Maps.IWorldMap;
+
 public class MapVisualizer {
     private static final String EMPTY_CELL = " ";
     private static final String FRAME_SEGMENT = "-";

@@ -1,4 +1,8 @@
-package main;
+package main.Maps;
+
+import main.MapVisualizer;
+import main.Maps.AbstractWorldMap;
+import main.Vector2d;
 
 public class RectangularMap extends AbstractWorldMap {
 

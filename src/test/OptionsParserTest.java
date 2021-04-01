@@ -12,7 +12,7 @@ class OptionsParserTest {
 
     @Test
     public void parserTest(){
-//        Animal a1 = new Animal();
+//        Animal a1 = new Animal(); //TODO dodac ze rzucza wyjatek
 //        String[] commands = new String[]{"r", "ddd", "forward", "f", "f"};
 //        OptionsParser opt = new OptionsParser();
 //        MoveDirection[] moves = opt.parser(commands);

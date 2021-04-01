@@ -1,25 +1,33 @@
 package main;
 
+import main.Maps.IMapElement;
+import main.Maps.IWorldMap;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-public class Animal {
+public class Animal implements IMapElement {
 
     private Vector2d position = new Vector2d(2, 2);
     private MapDirection direction = MapDirection.NORTH;
     private IWorldMap map;
     private List<IPositionChangeObserver> observers = new ArrayList<>();
+    private int animalLives;
+    private static final int startingLive = 10;
+
 
     public Animal(IWorldMap map){
         this.map = map;
+        this.animalLives = 10;
     }
+
 
     public Animal(IWorldMap map, Vector2d initialPosition){
         this.map = map;
         this.position = initialPosition;
-
+        this.animalLives = 10;
     }
 
 
@@ -89,15 +97,15 @@ public class Animal {
         }
     }
 
-    void addObserver(IPositionChangeObserver observer){
+    public void addObserver(IPositionChangeObserver observer){
         this.observers.add(observer);
     }
 
-    void removeObserver(IPositionChangeObserver observer){
+    public void removeObserver(IPositionChangeObserver observer){
         this.observers.remove(observer);
     }
 
-    void positionChanged(IPositionChangeObserver observer){
+    public void positionChanged(IPositionChangeObserver observer){
         for (IPositionChangeObserver observerX: observers){
             Iterator<Vector2d> it = this.map.getAnimals().keySet().iterator();
             List<Vector2d> saved1 = new ArrayList<>();
@@ -114,6 +122,36 @@ public class Animal {
             }
         }
     }
+
+
+    public IWorldMap getMap() {
+        return map;
+    }
+
+    public int getAnimalLives() {
+        return animalLives;
+    }
+
+    public void setAnimalLives(int howManyLives) {
+        this.animalLives += howManyLives;
+    }
+
+    public Color setColor(){
+        if (0.75 * startingLive < this.animalLives) {
+            return new Color(102, 0, 0);
+        }
+        if (0.5 * startingLive < this.animalLives) {
+            return new Color(204, 0, 0);
+        }
+        if (0.25 * startingLive < this.animalLives) {
+            return new Color(255, 77, 77);
+        }
+        return new Color(255, 153, 153);
+
+    }
+
+
+
 }
 
 
