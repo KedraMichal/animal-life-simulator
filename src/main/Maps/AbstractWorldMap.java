@@ -17,45 +17,42 @@ public abstract class AbstractWorldMap implements IWorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-//        if (animals.containsKey(position)){
-//            return false;
-//        }
+        for (Animal animalPlaced : animals) {
+            if (animalPlaced.getPosition().equals(position)) {
+                return false;
+            }
+        }
         return true;
     }
 
     @Override
     public boolean place(Animal animal) {
-//        for (Vector2d position : animals.keySet()) {
-//            if (position.equals(animal.getPosition())) {
-//                throw new IllegalArgumentException("Position: " + position + " is already taken");
-//            }
-//        }
-//        this.animals.put(animal.getPosition(), animal);
-//        animal.addObserver(this);
-
+        for (Animal animalPlaced : animals) {
+            if (animalPlaced.getPosition().equals(animal.getPosition())) {
+                throw new IllegalArgumentException("Position: " + animal.getPosition() + " is already taken");
+            }
+        }
+        this.animals.add(animal);
         return true;
     }
 
     @Override
     public boolean isOccupied(Vector2d position) {
-//        if (animals.containsKey(position)){
-//            return true;
-//        };
+        for (Animal animalPlaced : animals) {
+            if (animalPlaced.getPosition().equals(position)) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-//        if (animals.containsKey(position)){
-//            return animals.get(position);
-//        }
+        for (Animal animalPlaced : animals) {
+            if (animalPlaced.getPosition().equals(position)) {
+                return animalPlaced;
+            }
+        }
         return null;
     }
-
-//    @Override
-//    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-//        Animal animal = this.animals.get(oldPosition);
-//        this.animals.remove(oldPosition);
-//        this.animals.put(newPosition, animal);
-//    }
 }

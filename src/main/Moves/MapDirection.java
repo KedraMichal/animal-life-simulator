@@ -5,20 +5,6 @@ import main.Others.Vector2d;
 public enum MapDirection {
     NORTH, SOUTH, WEST, EAST;
 
-    @Override
-    public String toString() {
-        switch (this){
-                case EAST:
-                    return ("Wschód");
-                case WEST:
-                    return ("Zachód");
-                case NORTH:
-                    return ("Północ");
-                case SOUTH:
-                    return ("Południe");
-            }
-            return "";
-    }
 
     public MapDirection next(){
         switch (this){
@@ -61,6 +47,4 @@ public enum MapDirection {
                 return new Vector2d(0, 0);
         }
     }
-
-
 }

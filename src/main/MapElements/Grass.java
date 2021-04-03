@@ -13,8 +13,8 @@ public class Grass  implements IMapElement {
 
     public Grass(Jungle map) {
         this.map = map;
-        int xRandomPosition = ThreadLocalRandom.current().nextInt(0, this.map.getJungleUpperRight().x);
-        int yRandomPosition = ThreadLocalRandom.current().nextInt(0, this.map.getJungleUpperRight().y);
+        int xRandomPosition = ThreadLocalRandom.current().nextInt(0, this.map.getJungleUpperRight().getX());
+        int yRandomPosition = ThreadLocalRandom.current().nextInt(0, this.map.getJungleUpperRight().getY());
         this.position = new Vector2d(xRandomPosition, yRandomPosition);
     }
 
@@ -22,15 +22,12 @@ public class Grass  implements IMapElement {
         return position;
     }
 
-    @Override
-    public Color getColor() {
-        return null;
-    }
-
     public Jungle getMap() {
         return map;
     }
 
-
-
+    @Override
+    public Color getColor() {
+        return new Color(110, 235, 52);
+    }
 }

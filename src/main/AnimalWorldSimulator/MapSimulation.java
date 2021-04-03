@@ -7,52 +7,44 @@ import main.Others.Vector2d;
 
 import javax.swing.*;
 import javax.swing.Timer;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MapSimulation implements ActionListener {
 
-    private int startingAnimals;
-    private Jungle map;
-    public JFrame frame;
-    public MapRender mapRender;
-    public Timer timer;
+    private final int startingAnimals;
+    private final Jungle map;
+    private JFrame frame;
+    private MapRender mapRender;
+    private final Timer timer;
+    private final int grassSpawn;
 
-    public int getStartingAnimals() {
-        return startingAnimals;
-    }
-
-    public Jungle getMap() {
-        return map;
-    }
-
-    public MapSimulation(Jungle map, int startingAnimals ){
+    public MapSimulation(Jungle map, int startingAnimals, int grassSpawn){
         this.map  = map;
         this.startingAnimals = startingAnimals;
-        this.timer = new Timer(1, this);
+        this.timer = new Timer(10, this);
+        this.grassSpawn = grassSpawn;
     }
 
     public void runGame(){
             this.animalsRandomSpawn();
-            this.map.spawnGrass(25);
-
-            System.out.println("xd" + this.map.getGrassList());
+            this.map.spawnGrass(10);
             this.frame = new JFrame("Animal life simulator");
-            this.frame.setSize(600, 600);
+            this.frame.setSize(550, 550);
             this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             this.frame.setLocationRelativeTo(null);
             this.frame.setVisible(true);
-            this.mapRender = new MapRender(map, this);
-//        JPanel j2 = new JPanel();
-//        this.frame.add(j2);
+            this.frame.setBackground(this.map.getColor());
+            this.mapRender = new MapRender(map);
             this.frame.add(mapRender);
             this.timer.start();
-
     }
 
-    //It will executed when timer finished counting
+    //execute when timer finish counting
     @Override
     public void actionPerformed(ActionEvent e) {
         this.mapChangeAfterDay();
@@ -65,41 +57,35 @@ public class MapSimulation implements ActionListener {
         this.animalsMinusLive();
         this.reproduceAnimals();
         this.removeDeadAnimals();
-        this.map.spawnGrass(1);
-
-        for (Animal ani: this.map.getAnimals()){
-            System.out.println(ani.getAnimalLives());
-        }
+        this.map.spawnGrass(grassSpawn);
     }
 
-    public void animalsMove(){
+    private void animalsMove(){
         for(Animal ani: this.map.getAnimals()){
             ani.move(ani.moveBasedOnGenes());
         }
     }
 
-    public void animalsRandomSpawn(){
+    private void animalsRandomSpawn(){
         for(int i = 0; i<this.startingAnimals; i++) {
-            int randomAnimalPlaceX = ThreadLocalRandom.current().nextInt(0, this.map.jungleUpperRight.x);
-            int randomAnimalPlaceY = ThreadLocalRandom.current().nextInt(0, this.map.jungleUpperRight.y);
+            int randomAnimalPlaceX = ThreadLocalRandom.current().nextInt(0, this.map.getJungleUpperRight().getX());
+            int randomAnimalPlaceY = ThreadLocalRandom.current().nextInt(0, this.map.getJungleUpperRight().getY());
             Animal animalToAdd = new Animal(this.map, new Vector2d(randomAnimalPlaceX, randomAnimalPlaceY));
-            if (this.map.place(animalToAdd)) {
-                int a =0;
-            }
+            this.map.place(animalToAdd);
         }
     }
 
-    public void animalsMinusLive(){
+    private void animalsMinusLive(){
         for(Animal ani: this.map.getAnimals()){
-            ani.setAnimalLives(-1);
+            ani.setAnimalLive(-1);
         }
     }
 
-    public void removeDeadAnimals(){
+    private void removeDeadAnimals(){
         List<Animal> animalList = new ArrayList<>();
         if(!this.map.getAnimals().isEmpty()){
             for(Animal ani: this.map.getAnimals()){
-                if(ani.getAnimalLives() < 0){
+                if(ani.getAnimalLive() < 0){
                     animalList.add(ani);
                 }
             }
@@ -109,7 +95,7 @@ public class MapSimulation implements ActionListener {
         }
     }
 
-    public void reproduceAnimals(){
+    private void reproduceAnimals(){
         Set<Vector2d> animalPositionsUnique = new HashSet<>();
         for (Animal ani: this.map.getAnimals()){
             animalPositionsUnique.add(ani.getPosition());
@@ -125,8 +111,8 @@ public class MapSimulation implements ActionListener {
                 }
                 Collections.sort(animalsOnThisPosition);
                 if (animalsOnThisPosition.size() > 1){
-                    if (animalsOnThisPosition.get(0).getAnimalLives() > 10 && animalsOnThisPosition.get(1).getAnimalLives() > 10){
-                        Animal producedAnimal = new Animal(this.map, animalsOnThisPosition.get(0).getPosition());
+                    if (animalsOnThisPosition.get(0).getAnimalLive() > 30 && animalsOnThisPosition.get(1).getAnimalLive() > 30){
+                        Animal producedAnimal = new Animal(this.map, animalsOnThisPosition.get(0).getPosition(), animalsOnThisPosition.get(0).crossAnimal(animalsOnThisPosition.get(1)));
                         producedAnimals.add(producedAnimal);
                         parents.add(animalsOnThisPosition.get(0));
                         parents.add(animalsOnThisPosition.get(1));
@@ -135,9 +121,7 @@ public class MapSimulation implements ActionListener {
             }
             }
         for (int i=0; i<parents.size(); i=i+2){
-            System.out.println(parents.get(i).getAnimalLives());
             parents.get(i).lowerEnergyAfterReproduce();
-            System.out.println(parents.get(i).getAnimalLives());
             parents.get(i+1).lowerEnergyAfterReproduce();
         }
         for (Animal ani: producedAnimals) {
@@ -147,7 +131,7 @@ public class MapSimulation implements ActionListener {
 
     }
 
-    public void grassConsumption(){
+    private void grassConsumption(){
         List<Animal> animalList = new ArrayList<>();
         for (Grass grass: this.map.getGrassList()){
             Animal  strongestAnimal = null;
@@ -159,7 +143,7 @@ public class MapSimulation implements ActionListener {
                         i += 1;
                     }
                     Animal animalOnPosition = ani;
-                    if (animalOnPosition.getAnimalLives() >= strongestAnimal.getAnimalLives()){
+                    if (animalOnPosition.getAnimalLive() >= strongestAnimal.getAnimalLive()){
                         strongestAnimal = ani;
                     }
                 }
@@ -169,9 +153,9 @@ public class MapSimulation implements ActionListener {
 
     }
         if(!this.map.getAnimals().isEmpty()) {
-            List<Grass> grassHelp = new ArrayList();
+            List<Grass> grassHelp = new ArrayList<>();
             for (Animal ani : animalList) {
-                ani.setAnimalLives(100);
+                ani.setAnimalLive(10);
                 for (Grass grassX: this.map.getGrassList()){
                     if (grassX.getPosition().equals(ani.getPosition())){
                         grassHelp.add(grassX);
@@ -180,5 +164,13 @@ public class MapSimulation implements ActionListener {
             }
             this.map.getGrassList().removeAll(grassHelp);
         }
+    }
+
+    public int getStartingAnimals() {
+        return startingAnimals;
+    }
+
+    public Jungle getMap() {
+        return map;
     }
 }

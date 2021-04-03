@@ -9,13 +9,14 @@ public class Genes {
 
     public Genes(){
         for(int i=0; i<this.gensArrays.length; i++){
-            gensArrays[i] = ThreadLocalRandom.current().nextInt(0,4); //TODO poprawic indziej bound=4 daje 3
+            this.gensArrays[i] = ThreadLocalRandom.current().nextInt(0,4);
         }
-        Arrays.sort(gensArrays);
+        Arrays.sort(this.gensArrays);
     }
 
     public Genes(int[] gensArrays){
         this.gensArrays = gensArrays;
+        Arrays.sort(this.gensArrays);
     }
 
     public int[] getGensArrays() {

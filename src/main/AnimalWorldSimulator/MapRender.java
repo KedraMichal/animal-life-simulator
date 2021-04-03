@@ -9,40 +9,38 @@ import java.awt.*;
 
 public class MapRender extends JPanel {
 
-    public Jungle map;
-    public MapSimulation simulation;
+    private final Jungle map;
+    private final int widthScale;
+    private final int heightScale;
 
-    public MapRender(Jungle map, MapSimulation simulation) {
+    public MapRender(Jungle map) {
         this.map = map;
-        this.simulation = simulation;
         this.setSize(500,500);
+        this.widthScale = this.getWidth() / this.map.getJungleUpperRight().getX();
+        this.heightScale = this.getHeight()/ this.map.getJungleUpperRight().getY();
     }
 
     // when JFrame needs to be refreshed, the JPanel instance's paintComponent() method is called.
     @Override
-    protected void paintComponent(Graphics g) {
-        int width = this.getWidth();
-        int height = this.getHeight();
-        int widthScale = width / this.map.jungleUpperRight.x;
-        int heightScale = height / this.map.jungleUpperRight.y;
+    public void paintComponent(Graphics g) {
+        paintGrass(g);
+        paintAnimals(g);
+    }
 
-        g.setColor(new Color(170, 224, 103));
-        g.fillRect(0, 0, width, height);
-        System.out.println("xdd");
-
+    private void paintAnimals(Graphics g){
         for (Animal a : this.map.getAnimals()) {
+            int y = (a.getPosition().getY()) * widthScale;
+            int x = (a.getPosition().getX()) * heightScale;
             g.setColor(a.getColor());
-            int y = (a.getPosition().y) * widthScale;
-            int x = (a.getPosition().x) * heightScale;
             g.fillOval(x, y, (int) Math.floor(widthScale * 0.6), (int) Math.floor(heightScale * 0.6));
         }
+    }
 
-
+    private void paintGrass(Graphics g){
         for (Grass a : this.map.getGrassList()) {
-            g.setColor(Color.green);
-            g.setColor(new Color(170, 244, 53));
-            int y = (a.getPosition().y) * widthScale;
-            int x = (a.getPosition().x) * heightScale;
+            int y = (a.getPosition().getY()) * widthScale;
+            int x = (a.getPosition().getX()) * heightScale;
+            g.setColor(a.getColor());
             g.fillRect(x, y, (int) Math.floor(widthScale * 0.6), (int) Math.floor(heightScale * 0.6));
         }
     }
